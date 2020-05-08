@@ -4,9 +4,12 @@
    "description": "searches the fishbowl custom-reports repository to find reports with custom fields",
    "main": "index.js",
    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "run": "node index.js"
+      "test": "node index.js '../custom-reports'"
    },
    "author": "Dallen Baldwin",
-   "license": "MIT"
+   "license": "MIT",
+   "dependencies": {
+      "objects-to-csv": "^1.3.6",
+      "xml2js": "^0.4.23"
+   }
 }
