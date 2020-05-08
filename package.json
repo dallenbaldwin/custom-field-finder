@@ -1,0 +1,12 @@
+{
+   "name": "custom-field-finder",
+   "version": "1.0.0",
+   "description": "searches the fishbowl custom-reports repository to find reports with custom fields",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "run": "node index.js"
+   },
+   "author": "Dallen Baldwin",
+   "license": "MIT"
+}
