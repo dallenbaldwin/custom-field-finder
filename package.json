@@ -3,8 +3,9 @@
    "version": "1.0.0",
    "description": "searches the fishbowl custom-reports repository to find reports with custom fields",
    "main": "index.js",
+   "bin": "bin.js",
    "scripts": {
-      "test": "node index.js '../custom-reports'"
+      "test": "node bin.js"
    },
    "author": "Dallen Baldwin",
    "license": "MIT",
