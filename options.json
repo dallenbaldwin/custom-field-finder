@@ -1,0 +1,35 @@
+{
+   "rootPath": "../custom-reports",
+   "ignore": [
+      "2017 (Reports to update)",
+      "_fishbowl-custom-reports-util",
+      "matt's backup"
+   ],
+   "output": {
+      "customFields": {
+         "run": true,
+         "path": "."
+      },
+      "loneJaspers": {
+         "run": true,
+         "path": "."
+      }
+   },
+   "log": {
+      "group": false,
+      "item": false,
+      "hasCustomFields": false
+   },
+   "keywords": [
+      "customdecimal",
+      "customfield",
+      "customfieldview",
+      "custominteger",
+      "customlist",
+      "customlistitem",
+      "customset",
+      "customtimestamp",
+      "customvarchar",
+      "customvarcharlong"
+   ]
+}
