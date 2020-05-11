@@ -1,5 +1,5 @@
 {
-   "rootPath": "../custom-reports",
+   "rootPath": "custom-reports",
    "ignore": [
       "2017 (Reports to update)",
       "_fishbowl-custom-reports-util",
@@ -8,11 +8,11 @@
    "output": {
       "customFields": {
          "run": true,
-         "path": "."
+         "path": "./custom-field-finder-output"
       },
       "loneJaspers": {
          "run": true,
-         "path": "."
+         "path": "./custom-field-finder-output"
       }
    },
    "log": {
