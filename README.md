@@ -8,7 +8,13 @@ Recursively searches a given folder for .jrxml files with keywords defined in th
 
 **_ALL RELATIVE PATHS ARE RELATIVE TO THE FOLDER OF THE PROGRAM'S EXECUTION_**
 
+## Usage
+
+node bin.js
+
 ## Options
+
+*_These options can only be modified if used with Node.js_*
 
 ---
 
