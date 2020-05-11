@@ -18,7 +18,7 @@ Starting folder for the search.
 
 Can be a relative or an absolute path.
 
-#### Default : "../custom-reports"
+#### Default : "custom-reports"
 
 ---
 
@@ -52,12 +52,12 @@ The program has two outputs.
 customFields
 
 -  run : true,
--  path : "." (same directory as execution)
+-  path : "./custom-field-finder-output"
 
 loneJaspers
 
 -  run : true,
--  path : "." (same directory as execution)
+-  path : "./custom-field-finder-output"
 
 ---
 
