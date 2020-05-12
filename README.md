@@ -10,11 +10,24 @@ Recursively searches a given folder for .jrxml files with keywords defined in th
 
 ## Usage
 
-node bin.js
+### CLI
+
+-  Default options
+   -  `node bin.js`
+   -  `custom-field-finder-{OS(.exe)}`
+-  Custom options
+   -  `node bin.js ./customOptions.json`
+   -  `node bin.js "C:/Users/{user}/Desktop/customOptions.json"`
+   -  `custom-field-finder-{OS(.exe)} ./customOptions.json`
+   -  `custom-field-finder-{OS(.exe)} "C:/Users/{user}/Desktop/customOptions.json"`
+   -  Custom JSON structure must match `options.json`
+
+### Packaged Executable
+
+-  Double click to run with default options
+-  Call executable in terminal of choice to pass custom options
 
 ## Options
-
-*_These options can only be modified if used with Node.js_*
 
 ---
 
@@ -71,15 +84,17 @@ loneJaspers
 
 Enables console logging for the program. Intended for testing purposes.
 
--  group : logs folders
--  item: logs .jrxml and .jasper files that are checked
--  hasCustomFields: logs the parsed jrxml object
+-  structure.group : logs folders
+-  structure.item: logs .jrxml and .jasper files that are checked
+-  hasCustomFields.found: logs the keyword and line of found line
+-  getInfo.fileData: logs the full contents of the .jrxml file
 
 #### Defaults
 
--  group: false
--  item: false
--  hasCustomFields: false
+-  structure.group : true
+-  structure.item: false
+-  hasCustomFields.found: false
+-  getInfo.fileData: false
 
 ---
 
@@ -87,15 +102,23 @@ Enables console logging for the program. Intended for testing purposes.
 
 List of keywords to include in search. Keywords are expected to be all lowercase.
 
+The default list is ordered by expected volume. Tweaking the order may yield faster runtime, but probably not by much as the program executes asynchronously with the following logic
+
+```txt
+for every line in .jrxml
+   for every keyword
+      go to next file if found
+```
+
 #### Defaults
 
--  customdecimal
--  customfield
--  customfieldview
--  custominteger
--  customlist
--  customlistitem
--  customset
--  customtimestamp
 -  customvarchar
+-  customfieldview
+-  customfield
+-  customset
+-  customdecimal
+-  custominteger
+-  customtimestamp
 -  customvarcharlong
+-  customlistitem
+-  customlist

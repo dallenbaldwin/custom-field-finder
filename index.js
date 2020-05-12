@@ -1,27 +1,18 @@
 const fs = require('fs');
-const xml2js = require('xml2js');
 const o2c = require('objects-to-csv');
 
-function hasCustomFields(xml = {}, options = {}) {
-   if (options.log.hasCustomFields) console.log(xml);
-   let queries = [];
-   if (xml.subDataset === undefined) queries.concat(xml.queryString);
-   else {
-      queries.concat(xml.queryString);
-      let subQueries = xml.subDataset
-         .map(x => x.queryString)
-         .filter(x => x !== undefined);
-      queries.push(...subQueries);
-   }
-   for (line of queries) {
+function hasCustomFields(xml, options = {}) {
+   let lines = xml.split('\r\n');
+   for (line of lines) {
       for (keyword of options.keywords) {
-         let lower;
-         if (typeof line === 'string') {
-            lower = line.toLowerCase();
-         } else if (typeof line === 'object') {
-            lower = JSON.stringify(line).toLowerCase();
+         let lower = line.toLowerCase();
+         if (lower.includes(keyword)) {
+            if (options.log.hasCustomFields.found) {
+               console.log(keyword);
+               console.log(line);
+            }
+            return true;
          }
-         if (lower.includes(keyword)) return true;
       }
    }
    return false;
@@ -29,13 +20,8 @@ function hasCustomFields(xml = {}, options = {}) {
 
 function getInfo(dirItem = '', options = {}) {
    let fileData = fs.readFileSync(dirItem, 'utf-8');
-   let parser = new xml2js.Parser();
-   let data;
-   parser.parseString(fileData, function (err, result) {
-      if (err) data = err;
-      else data = result.jasperReport;
-   });
-   return { jrxml: data, path: dirItem.split('/') };
+   if (options.log.getInfo.fileData) console.log(fileData);
+   return fileData;
 }
 
 function readdir(currentPath = '.', dataset = [], options = {}) {
@@ -49,21 +35,22 @@ function readdir(currentPath = '.', dataset = [], options = {}) {
       let customReports = currentPath.split('/').indexOf('custom-reports');
       let customer = currentPath.split('/')[customReports + 1];
       if (itemStats.isDirectory()) {
-         if (options.log.group) console.group(itemPath);
+         if (options.log.structure.group) console.group(itemPath);
          readdir(itemPath, dataset, options);
-         if (options.log.group) console.groupEnd();
+         if (options.log.structure.group) console.groupEnd();
       } else if (item.endsWith('.jrxml')) {
-         if (options.log.item) console.log(itemPath);
+         if (options.log.structure.item) console.group(itemPath);
          let itemInfo = getInfo(itemPath, options);
-         let customFieldCheck = hasCustomFields(itemInfo.jrxml, options);
+         let customFieldCheck = hasCustomFields(itemInfo, options);
          if (customFieldCheck) {
             dataset.push({
                customer: customer,
                filename: item,
             });
          }
+         if (options.log.structure.item) console.groupEnd();
       } else if (item.endsWith('.jasper')) {
-         if (options.log.item) console.log(itemPath);
+         if (options.log.structure.item) console.log(itemPath);
          let partnerItems = fItems
             .filter(i => i !== item)
             .map(i => i.replace('.jrxml', '.jasper'))
@@ -102,10 +89,13 @@ module.exports = function (options) {
    readdir(start, dataset, options);
    if (options.output.customFields.run) {
       let customFields = dataset.filter(x => x.filename.endsWith('.jrxml'));
+      console.log(`Creating custom-fields csv at ${options.output.customFields.path}`);
       createCSV(customFields, `custom-fields`, options.output.customFields.path);
    }
    if (options.output.loneJaspers.run) {
       let loners = dataset.filter(x => x.filename.endsWith('.jasper'));
+      console.log(`Creating lone-jaspers csv at ${options.output.loneJaspers.path}`);
       createCSV(loners, `lone-jaspers`, options.output.loneJaspers.path);
    }
+   console.log('Done!');
 };

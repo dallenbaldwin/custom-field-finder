@@ -1,5 +1,5 @@
 {
-   "rootPath": "custom-reports",
+   "rootPath": "../custom-reports",
    "ignore": [
       "2017 (Reports to update)",
       "_fishbowl-custom-reports-util",
@@ -16,20 +16,27 @@
       }
    },
    "log": {
-      "group": false,
-      "item": false,
-      "hasCustomFields": false
+      "structure": {
+         "group": false,
+         "item": false
+      },
+      "hasCustomFields": {
+         "found": false
+      },
+      "getInfo": {
+         "fileData": false
+      }
    },
    "keywords": [
-      "customdecimal",
-      "customfield",
-      "customfieldview",
-      "custominteger",
-      "customlist",
-      "customlistitem",
-      "customset",
-      "customtimestamp",
       "customvarchar",
-      "customvarcharlong"
+      "customfieldview",
+      "customfield",
+      "customset",
+      "customdecimal",
+      "custominteger",
+      "customtimestamp",
+      "customvarcharlong",
+      "customlistitem",
+      "customlist"
    ]
 }

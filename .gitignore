@@ -1,6 +1,9 @@
 # vs-code stuff
 .vscode
 
+# output folder
+custom-field-finder-output
+
 # Logs
 logs
 *.log
