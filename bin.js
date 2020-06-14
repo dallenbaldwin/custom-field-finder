@@ -84,9 +84,11 @@ if (inputs.includes('-h') || inputs.includes('--help')) {
    return;
 }
 
+let start;
+
 if (inputs.length === 0 || !inputs.includes('--path'))
-   root = prompt('Enter a starting path: ');
+   start = prompt('Enter a starting path: ');
 
-if (inputs.includes('--path')) root = inputs[inputs.indexOf('--path') + 1];
+if (inputs.includes('--path')) start = inputs[inputs.indexOf('--path') + 1];
 
-finder(root, options);
+finder(start, options);
