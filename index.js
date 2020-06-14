@@ -7,7 +7,7 @@ function hasCustomFields(xml, options = {}) {
       for (keyword of options.keywords) {
          let lower = line.toLowerCase();
          if (lower.includes(keyword)) {
-            if (options.log.hasCustomFields.found) {
+            if (options.log.hasCustomFields.found || options.log.all) {
                console.log(keyword);
                console.log(line);
             }
@@ -20,12 +20,18 @@ function hasCustomFields(xml, options = {}) {
 
 function getInfo(dirItem = '', options = {}) {
    let fileData = fs.readFileSync(dirItem, 'utf-8');
-   if (options.log.getInfo.fileData) console.log(fileData);
+   if (options.log.getInfo.fileData || options.log.all) console.log(fileData);
    return fileData;
 }
 
 function readdir(currentPath = '.', dataset = [], options = {}) {
-   let fItems = fs.readdirSync(currentPath);
+   let fItems;
+   try {
+      fItems = fs.readdirSync(currentPath);
+   } catch (e) {
+      console.log(e);
+      return;
+   }
    fItems = fItems
       .filter(i => !i.startsWith('.'))
       .filter(i => !options.ignore.includes(i));
@@ -35,11 +41,11 @@ function readdir(currentPath = '.', dataset = [], options = {}) {
       let customReports = currentPath.split('/').indexOf('custom-reports');
       let customer = currentPath.split('/')[customReports + 1];
       if (itemStats.isDirectory()) {
-         if (options.log.structure.group) console.group(itemPath);
+         if (options.log.structure.group || options.log.all) console.group(itemPath);
          readdir(itemPath, dataset, options);
-         if (options.log.structure.group) console.groupEnd();
+         if (options.log.structure.group || options.log.all) console.groupEnd();
       } else if (item.endsWith('.jrxml')) {
-         if (options.log.structure.item) console.group(itemPath);
+         if (options.log.structure.item || options.log.all) console.group(itemPath);
          let itemInfo = getInfo(itemPath, options);
          let customFieldCheck = hasCustomFields(itemInfo, options);
          if (customFieldCheck) {
@@ -48,9 +54,9 @@ function readdir(currentPath = '.', dataset = [], options = {}) {
                filename: item,
             });
          }
-         if (options.log.structure.item) console.groupEnd();
+         if (options.log.structure.item || options.log.all) console.groupEnd();
       } else if (item.endsWith('.jasper')) {
-         if (options.log.structure.item) console.log(itemPath);
+         if (options.log.structure.item || options.log.all) console.log(itemPath);
          let partnerItems = fItems
             .filter(i => i !== item)
             .map(i => i.replace('.jrxml', '.jasper'))
@@ -83,10 +89,10 @@ async function createCSV(dataset = [], filename = 'dataset', rootdir = '.') {
    await csv.toDisk(`${rootdir}/${filename} ${dateString}_${timeString}.csv`);
 }
 
-module.exports = function (options) {
+module.exports = function (rootPath = 'custom-reports', options = {}) {
+   console.log(`starting at ${rootPath}...`);
    let dataset = [];
-   let start = options.rootPath;
-   readdir(start, dataset, options);
+   readdir(rootPath, dataset, options);
    if (options.output.customFields.run) {
       let customFields = dataset.filter(x => x.filename.endsWith('.jrxml'));
       console.log(`Creating custom-fields csv at ${options.output.customFields.path}`);

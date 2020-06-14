@@ -1,0 +1,22 @@
+{
+   "header": "Custom Field Finder Help",
+   "path": {
+      "header": "Start or Root Path",
+      "details": "--path Path\n   Required. Sets the start or root path. Default is ../custom-reports"
+   },
+   "output": {
+      "header": "Output Options",
+      "customFieldPath": "--output-path-customFields Path\n   Sets the path to a custom directory for .jrxml files with matching keywords. Default is ./custom-field-finder-output",
+      "loneJasperPath": "--output-path-loneJaspers Path\n   Sets the path to a custom directory for .jrxml files with an accompanying .jasper. Default is ./custom-field-finder-output",
+      "disableCustomFields": "--output-disable-customFields\n   Disables output files for .jrxmls with matching keywords",
+      "disableLoneJaspers": "--output-disable-loneJaspers\n   Disables output files for .jrxmls without accompanying .jaspers"
+   },
+   "log": {
+      "header": "Logging",
+      "all": "--log-all\n   Enables logging at all available steps",
+      "structureGroup": "--log-structure-group\n   Enables logging for directories",
+      "structureItem": "--log-structure-item\n   Enables logging for files",
+      "hasCustomFields": "--log-hasCustomFields\n   Enables logging for hasCustomFields function",
+      "getInfo": "--log-getInfo\n   Enables logging for getInfo function"
+   }
+}
